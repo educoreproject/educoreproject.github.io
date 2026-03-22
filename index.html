@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduCore Project</title>
+  <style>
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2b6cb0;
+      --accent: #ed8936;
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+      --text-light: #718096;
+      --border: #e2e8f0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    header nav a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    header nav a:hover { color: white; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      max-width: 800px;
+      margin: 0 auto 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+
+    .hero .badges {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+    }
+
+    /* Section common */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    section h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    section .subtitle {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
+    /* Use Case Cards */
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .card .icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    .about-grid p {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .about-grid ul {
+      padding-left: 1.25rem;
+      color: var(--text);
+    }
+
+    .about-grid li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Phase 1 */
+    .phase-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .phase-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .phase-item h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--primary);
+    }
+
+    .phase-item p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    /* Alignment banner */
+    .alignment {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    .alignment h3 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .alignment .logos {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .alignment .logo-item {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>EduCore Project</h1>
+    <nav>
+      <a href="#use-cases">Use Cases</a>
+      <a href="#about">About</a>
+      <a href="#phase1">Phase 1</a>
+      <a href="#alignment">Alignment</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h2>A Shared Foundation for Education Data Interoperability</h2>
+    <p>
+      EduCore builds the reference library, use case registry, and standards alignment that education stakeholders need to exchange data seamlessly — without requiring new platforms.
+    </p>
+    <div class="badges">
+      <span class="badge">CEDS RDF</span>
+      <span class="badge">LER / OBv3</span>
+      <span class="badge">1EdTech</span>
+      <span class="badge">Ed-Fi</span>
+      <span class="badge">HROpen / TCP</span>
+    </div>
+  </div>
+
+  <section id="use-cases">
+    <h3>Use Cases</h3>
+    <p class="subtitle">Real-world scenarios driving EduCore's design and priorities.</p>
+    <div class="use-cases">
+
+      <div class="card">
+        <div class="icon">&#127979;</div>
+        <h4>Small District Reporting &amp; Interoperability</h4>
+        <p>
+          Enable small and rural districts to meet state and federal reporting requirements using existing systems. EduCore provides standards-aligned mappings so districts can share and report data without adopting new platforms or infrastructure.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">&#127891;</div>
+        <h4>Adult Learner LER Assembly</h4>
+        <p>
+          Help adult learners assemble a comprehensive Learning and Employment Record from fragmented sources — community colleges, workforce programs, employer training, and professional certifications — into a single, portable, standards-based credential profile.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">&#128274;</div>
+        <h4>Disability Accommodations-Aware Record Sharing</h4>
+        <p>
+          Support the secure exchange of learner records that include disability accommodation information, with fine-grained privacy controls ensuring sensitive data is only shared with authorized parties on a need-to-know basis.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">&#127760;</div>
+        <h4>Multilingual Advising &amp; Communication</h4>
+        <p>
+          Enable multilingual academic advising and family communication with full data provenance — ensuring translated records and communications can be traced back to verified, authoritative source documents.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="about">
+    <h3>About EduCore</h3>
+    <p class="subtitle">Building the connective tissue for education data standards.</p>
+    <div class="about-grid">
+      <div>
+        <p>
+          EduCore is a collaborative initiative to create a shared reference architecture for education data interoperability. Rather than building another platform, EduCore focuses on the foundational layer: aligning existing standards, cataloging resources, and providing a common registry that stakeholders across K-12, higher education, workforce development, and credentialing can all build on.
+        </p>
+        <p>
+          At its core, EduCore is developing a <strong>CEDS Ontology with an RDF foundation</strong> that maps across the major standards in the ecosystem — including LER, INFUSE, Verifiable Credentials, CASE, Open Badges v3, JEDx, PESC Transcript, and TCP. This shared ontology enables automated federal reporting and powers the next generation of LER-based talent marketplaces.
+        </p>
+        <p>
+          The project is guided by a Stakeholder Advisory Council and developed in partnership with organizations including 1EdTech and the Ed-Fi Alliance, with explicit alignment to the Learning Interoperability Framework (LIF) and CEDS-EdFi initiatives.
+        </p>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 0.75rem; color: var(--primary);">Phase 1 Work Products</h4>
+        <ul>
+          <li><strong>Reference Library</strong> — User's guide, resource catalog, and standards registry</li>
+          <li><strong>Stakeholder Registry</strong> — Partnership letters, signatories, and advisory council</li>
+          <li><strong>Use Case Registry</strong> — Scoped use cases with metadata, filters, and relational taxonomy</li>
+          <li><strong>LER Standardization</strong> — CEDS RDF mappings to LER/VC/OBv3/TCP and beyond</li>
+          <li><strong>3-Year Project Plan</strong> — Investment narrative, resource budget, launch schedule</li>
+        </ul>
+        <h4 style="margin-top: 1.5rem; margin-bottom: 0.75rem; color: var(--primary);">Key Questions We're Answering</h4>
+        <ul>
+          <li>How can CEDS RDF automate federal reporting?</li>
+          <li>How can CEDS RDF enable an LER-based talent marketplace?</li>
+          <li>What taxonomy and metadata structure best supports cross-sector use cases?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="phase1">
+    <h3>Phase 1 Deliverables</h3>
+    <p class="subtitle">Targeted outputs for the initial project phase.</p>
+    <div class="phase-list">
+      <div class="phase-item">
+        <h4>Outreach &amp; Partnerships</h4>
+        <p>Stakeholder letters, signatories, and relationships with 1EdTech, Ed-Fi, and hyperscaler partners.</p>
+      </div>
+      <div class="phase-item">
+        <h4>Advisory Council</h4>
+        <p>Vertical-specific demos followed by business alignment sessions with stakeholder leadership.</p>
+      </div>
+      <div class="phase-item">
+        <h4>Reference Library</h4>
+        <p>User's guide, stakeholder registry, use case registry, resource catalog, and standards registry.</p>
+      </div>
+      <div class="phase-item">
+        <h4>Use Case Design</h4>
+        <p>Initial taxonomy with scoping metadata, horizontal/vertical filters, and relational structure.</p>
+      </div>
+      <div class="phase-item">
+        <h4>CEDS Ontology &amp; RDF</h4>
+        <p>RDF foundation with mappings to LER, INFUSE, VC, CASE, OBv3, JEDx, PESC, and TCP.</p>
+      </div>
+      <div class="phase-item">
+        <h4>3-Year Project Plan</h4>
+        <p>Investment narrative, resource budget, and phased launch/versioning roadmap.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="alignment" id="alignment">
+    <h3>Standards Alignment</h3>
+    <p>EduCore is explicitly aligned with the leading education data standards and initiatives.</p>
+    <div class="logos">
+      <span class="logo-item">1EdTech</span>
+      <span class="logo-item">Ed-Fi Alliance</span>
+      <span class="logo-item">CEDS</span>
+      <span class="logo-item">LIF</span>
+      <span class="logo-item">Medbiquitous CASE</span>
+      <span class="logo-item">PESC</span>
+      <span class="logo-item">HROpen</span>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 EduCore Project. Building interoperability for education, together.
+  </footer>
+
+</body>
+</html>
