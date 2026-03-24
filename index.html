@@ -35,6 +35,17 @@
       justify-content: space-between;
     }
 
+    header .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    header .logo-group img {
+      height: 2.2rem;
+      width: auto;
+    }
+
     header h1 {
       font-size: 1.5rem;
       font-weight: 700;
@@ -307,7 +318,10 @@
 <body>
 
   <header>
-    <h1>EduCore Project</h1>
+    <div class="logo-group">
+      <img src="EDUcore Bridge_logo.png" alt="EDUcore Bridge logo">
+      <h1>EduCore Project</h1>
+    </div>
     <nav>
       <a href="#use-cases">Use Cases</a>
       <a href="#why">Why EDUcore</a>
