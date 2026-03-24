@@ -227,6 +227,73 @@
       font-size: 0.95rem;
     }
 
+    /* Bakeoff */
+    .bakeoff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .bakeoff-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .bakeoff-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .bakeoff-card .thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+
+    .bakeoff-card .body {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .bakeoff-card h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .bakeoff-card .presenter {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .bakeoff-card p {
+      color: var(--text-light);
+      font-size: 0.92rem;
+      margin-bottom: 1rem;
+    }
+
+    .bakeoff-card .watch-link {
+      display: inline-block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--primary-light);
+      text-decoration: none;
+      border: 1px solid var(--primary-light);
+      padding: 0.35rem 0.9rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .bakeoff-card .watch-link:hover {
+      background: var(--primary-light);
+      color: white;
+    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -246,6 +313,7 @@
       <a href="#why">Why EDUcore</a>
       <a href="#phase1">Phase 1</a>
       <a href="#alignment">Alignment</a>
+      <a href="#bakeoff">AI Bakeoff</a>
     </nav>
   </header>
 
@@ -358,6 +426,94 @@
     <h3>Standards Alignment</h3>
     <p>EduCore seeks alignment with the leading education data standards and initiatives.</p>
   </div>
+
+  <section id="bakeoff">
+    <h3>EDUcore AI Bakeoff</h3>
+    <p class="subtitle">Community demonstrations showcasing AI-powered tools built on education data standards.</p>
+    <div class="bakeoff-grid">
+
+      <div class="bakeoff-card">
+        <img class="thumb" src="thumbnails/1 - Brandon - Exploring the EduCore Reference Library and AI Search Features 📚.jpg" alt="EduCore Reference Library demo">
+        <div class="body">
+          <h4>EduCore Reference Library &amp; AI Search</h4>
+          <div class="presenter">Brandon Dorman</div>
+          <p>Demonstrates the EduCore Reference Library with an AI-powered search engine grounded in a CEDS-based RDF/JSON-LD ontology. Users can query natural-language questions (e.g., "send a high school transcript to a college") and receive standards-aligned implementation roadmaps. Also features a Needs Explorer for tag-based spec discovery without AI.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1ijBytYPyF9Nrnse1b4dvf0Q3Or80QD3i" target="_blank">Watch on Drive</a>
+        </div>
+      </div>
+
+      <div class="bakeoff-card">
+        <img class="thumb" src="thumbnails/2 - Robert Bajor - 5 Minute Skill Nexus AI Demo - microcredential multiverse.jpg" alt="Skill Nexus AI demo">
+        <div class="body">
+          <h4>Skill Nexus AI</h4>
+          <div class="presenter">Robert Bajor &mdash; Micro Credential Multiverse</div>
+          <p>AI-driven labor market intelligence tool covering 1,016 O*NET occupations. Provides three tailored views &mdash; job seekers get portfolio guidance and AI-disruption exposure; hiring managers get assessment rubrics and 30/60/90-day plans; education providers get curriculum alignment and capstone ideas. Includes LinkedIn integration and downloadable career kits.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1ijBytYPyF9Nrnse1b4dvf0Q3Or80QD3i" target="_blank">Watch on Drive</a>
+        </div>
+      </div>
+
+      <div class="bakeoff-card">
+        <img class="thumb" src="thumbnails/3 - Jackson Smith - LEF_s CEDS-MCP Tool_ Exploring Equity Gaps in Education with AI-Driven Data Analysis.jpg" alt="CEDS MCP Tool demo">
+        <div class="body">
+          <h4>CEDS-MCP: AI-Driven Equity Gap Analysis</h4>
+          <div class="presenter">Jackson Smith &mdash; Learning Economy Foundation</div>
+          <p>An MCP server that connects Claude directly to a CEDS database, letting AI autonomously discover schemas, identify populated tables, and write analytical SQL. Demonstrated on a 50,000-student synthetic dataset, the tool surfaces equity gaps in assessment proficiency across racial and income groups &mdash; analysis that would take humans weeks to produce.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1ijBytYPyF9Nrnse1b4dvf0Q3Or80QD3i" target="_blank">Watch on Drive</a>
+        </div>
+      </div>
+
+      <div class="bakeoff-card">
+        <img class="thumb" src="thumbnails/4 - David M - Big Vid - KSAWorks Goldcheck.jpg" alt="KSAWorks GoldCheck demo">
+        <div class="body">
+          <h4>KSAWorks GoldCheck</h4>
+          <div class="presenter">David Martel &mdash; Academy One</div>
+          <p>Shows how EDUCORE's semantic backbone transforms static transcripts into actionable, linked data. GoldCheck is a free AI-enabled tool that plugs into institutional web catalogs, revealing transfer credit pathways, remaining coursework, and competency mappings &mdash; turning scattered content into personalized guidance for learners like the demo's "Shannon" persona.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1ijBytYPyF9Nrnse1b4dvf0Q3Or80QD3i" target="_blank">Watch on Drive</a>
+        </div>
+      </div>
+
+      <div class="bakeoff-card">
+        <img class="thumb" src="thumbnails/David M - EDUCORE KSWORKS-P.jpg" alt="KSAWorks Selfie demo">
+        <div class="body">
+          <h4>KSAWorks: From Transcript to Selfie</h4>
+          <div class="presenter">David Martel &mdash; Academy One</div>
+          <p>A real implementation of EDUCORE concepts showing how RDF endpoints and CEDS mapping turn static academic records into living competency profiles. Courses map to CIP codes, then to knowledge, skills, and abilities via SOC classifications &mdash; creating a continuous thread from learning to career. The result is a dynamic learner "Selfie" that AI navigation tools can act on.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1ijBytYPyF9Nrnse1b4dvf0Q3Or80QD3i" target="_blank">Watch on Drive</a>
+        </div>
+      </div>
+
+      <div class="bakeoff-card">
+        <img class="thumb" src="thumbnails/John Lovell - A4L.jpg" alt="A4L demo">
+        <div class="body">
+          <h4>A4L (Access 4 Learning)</h4>
+          <div class="presenter">John Lovell</div>
+          <p>A visual presentation on Access 4 Learning's role in the EDUCORE ecosystem, highlighting how A4L's data standards and community efforts connect with the broader initiative to improve education data interoperability.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1ijBytYPyF9Nrnse1b4dvf0Q3Or80QD3i" target="_blank">Watch on Drive</a>
+        </div>
+      </div>
+
+      <div class="bakeoff-card">
+        <img class="thumb" src="thumbnails/TQ_WHITE_II - AI_BAKEOFF.jpg" alt="Data Model Explorer demo">
+        <div class="body">
+          <h4>SIF &amp; CEDS Data Model Explorer</h4>
+          <div class="presenter">TQ White II</div>
+          <p>Loads both SIF and CEDS data models into a graph database for side-by-side exploration. Features a tree-based data model lookup, AI-powered cross-standard mapping between SIF elements and CEDS definitions, natural-language search (e.g., "data elements relevant to a school nurse"), and visual graph diagrams. Demonstrates massive overlap between the two standards.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1ijBytYPyF9Nrnse1b4dvf0Q3Or80QD3i" target="_blank">Watch on Drive</a>
+        </div>
+      </div>
+
+      <div class="bakeoff-card">
+        <img class="thumb" src="thumbnails/Vince Paredes - CEDS Assessment Query.jpg" alt="CEDS Assessment Query demo">
+        <div class="body">
+          <h4>CEDS Assessment Ontology Query</h4>
+          <div class="presenter">Vince Paredes</div>
+          <p>A one-take ChatGPT session demonstrating how AI can read the CEDS assessment ontology web page, construct SPARQL queries, locate the official RDF file on GitHub, and execute queries against real data. Answers the question "Do all assessment forms have an associated grade level?" &mdash; confirmed false, proving AI can reason over education standards autonomously.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1ijBytYPyF9Nrnse1b4dvf0Q3Or80QD3i" target="_blank">Watch on Drive</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <footer>
     &copy; 2026 EduCore Project. Building interoperability for education, together.
