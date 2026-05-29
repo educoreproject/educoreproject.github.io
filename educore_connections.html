@@ -25,8 +25,8 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(0.6px);
             padding: 14px 20px;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
@@ -328,6 +328,11 @@
             }
         });
 
+        // Establish an immutable base radius for each node to avoid cumulative resizing
+        data.nodes.forEach(n => {
+            n.baseRadius = n.baseRadius || n.radius || 30;
+        });
+
         let currentFocusId = "EDUcore";
 
         const width = window.innerWidth;
@@ -352,7 +357,7 @@
             .force("link", d3.forceLink().id(d => d.id).distance(260))
             .force("charge", d3.forceManyBody().strength(-1200))
             .force("center", d3.forceCenter(width / 2, height / 2))
-            .force("collision", d3.forceCollide().radius(d => (d.radius || 30) + 25));
+            .force("collision", d3.forceCollide().radius(d => (d.baseRadius || 30) + 25));
 
         // Reactive Rendering Architecture Function
         function renderGraph(focusId) {
@@ -371,7 +376,7 @@
                     return sourceId === focusId || targetId === focusId;
                 });
 
-                const activeNodeIds = new Set([focusId]);
+                    const activeNodeIds = new Set([focusId]);
                 filteredLinks.forEach(l => {
                     activeNodeIds.add(typeof l.source === "object" ? l.source.id : l.source);
                     activeNodeIds.add(typeof l.target === "object" ? l.target.id : l.target);
@@ -411,12 +416,13 @@
                             .call(drag(simulation));
 
                         g.append("circle")
-                            .attr("r", d => d.radius || 30)
+                            .attr("r", d => d.baseRadius * (d.id === focusId ? 1.5 : 1))
                             .attr("fill", d => d.id === "EDUcore" ? "#10b981" : d3.schemeTableau10[d.group % 10]);
 
                         g.append("text")
-                            .attr("dy", d => (d.radius || 30) + 18)
+                            .attr("dy", d => (d.baseRadius * (d.id === focusId ? 1.5 : 1)) + 18)
                             .attr("text-anchor", "middle")
+                            .attr("font-size", d => `${11 * (d.id === focusId ? 1.2 : 1)}px`)
                             .text(d => d.id);
 
                         return g;
@@ -442,6 +448,14 @@
                     currentFocusId = (currentFocusId === d.id) ? "EDUcore" : d.id;
                     renderGraph(currentFocusId);
                 });
+
+            // Ensure update selection reflects focused sizing for existing nodes
+            node.selectAll("circle")
+                .attr("r", d => d.baseRadius * (d.id === focusId ? 1.5 : 1));
+
+            node.selectAll("text")
+                .attr("dy", d => (d.baseRadius * (d.id === focusId ? 1.5 : 1)) + 18)
+                .attr("font-size", d => `${11 * (d.id === focusId ? 1.2 : 1)}px`);
 
             // Update parameters inside layout engine
             simulation.nodes(filteredNodes);
