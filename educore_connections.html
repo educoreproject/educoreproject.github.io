@@ -7,87 +7,144 @@
     <title>EDUcore-Gates Investment Partnerships</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        :root {
-            --educore-green: #00a88e;
-            --educore-dark: #1a1a1a;
-            --educore-white: #ffffff;
-            --educore-yellow:  #F4F38C;
-            --educore-orange:  #FFAB40;
-            --header-height: 70px;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc;
+            overflow: hidden;
         }
 
-        body { 
-            margin: 0; padding: 0; 
-            font-family: 'Inter', sans-serif; 
-            background-color: #eeeeee; 
-            overflow: hidden; 
+        #graph-container {
+            width: 100vw;
+            height: 100vh;
         }
 
-        header {
-            position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
-            background-color: var(--educore-white); display: flex; align-items: center;
-            padding: 0 40px; border-bottom: 3px solid var(--educore-green); z-index: 100;
-        }
-
-        header .logo-group {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        header .logo-group img {
-            height: 2.2rem;
-            width: auto;
-        }
-
-        .logo-text { font-size: 24px; font-weight: 800; color: var(--educore-dark); text-transform: uppercase; }
-        .logo-text span { color: var(--educore-green); }
-        .header-title { margin-left: 20px; padding-left: 20px; border-left: 1px solid #ddd; font-size: 16px; color: #666; }
-
-        #graph-container { width: 100vw; height: 100vh; }
-
+        /* Subtle Instruction Overlay */
         #instructions {
-            position: absolute; top: calc(var(--header-height) + 20px); left: 20px;
-            background: rgba(255, 255, 255, 0.95); padding: 14px 20px; border-radius: 8px;
-            border-left: 4px solid var(--educore-green); max-width: 280px; font-size: 13px; z-index: 50;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            padding: 14px 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            max-width: 280px;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.5;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 50;
         }
 
-        #credit-footer { position: absolute; bottom: 15px; right: 20px; font-size: 11px; color: #94a3b8; z-index: 50; }
+        #instructions b {
+            color: #1e293b;
+            display: block;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.05em;
+        }
 
+        /* Credit Footer */
+        #credit-footer {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 11px;
+            color: #94a3b8;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .highlight-red {
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        /* Tooltip Styling */
         .tooltip {
-            position: absolute; padding: 16px; background: rgba(255, 255, 255, 0.98);
-            border-left: 4px solid var(--educore-green); border-radius: 4px; pointer-events: none;
-            opacity: 0; font-size: 13px; max-width: 450px; line-height: 1.6; z-index: 100;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: absolute;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.98);
+            border-left: 4px solid #dc2626;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            font-size: 13px;
+            max-width: 400px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            line-height: 1.6;
+            color: #1e293b;
+            z-index: 100;
         }
 
-        .tooltip strong { display: block; margin-bottom: 8px; color: #0f172a; font-size: 15px; border-bottom: 1px solid #e2e8f0; }
-        .tooltip .label { font-weight: bold; color: var(--educore-green); text-transform: uppercase; font-size: 10px; margin-top: 8px; display: block; }
+        .tooltip strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #0f172a;
+            font-size: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
 
-        .node circle { stroke: #fff; stroke-width: 2px; cursor: pointer; }
-        .link { stroke: #f87171; stroke-opacity: 0.5; stroke-width: 2.5px; transition: all 0.3s; }
-        .link:hover { stroke-opacity: 1; stroke-width: 6px; stroke: #dc2626; }
-        .node text { pointer-events: none; font-size: 12px; font-weight: 600; fill: #334155; }
+        .tooltip .label {
+            font-weight: bold;
+            color: #dc2626;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.05em;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* Node & Link Styling */
+        .node circle {
+            stroke: #fff;
+            stroke-width: 2px;
+            cursor: pointer;
+        }
+
+        .link {
+            stroke: #f87171;
+            stroke-opacity: 0.5;
+            stroke-width: 2.5px;
+            transition: stroke 0.3s, stroke-width 0.3s, stroke-opacity 0.3s;
+        }
+
+        .link:hover {
+            stroke-opacity: 1;
+            stroke-width: 6px;
+            stroke: #dc2626;
+            cursor: help;
+        }
+
+        .node text {
+            pointer-events: none;
+            font-size: 11px;
+            font-weight: 600;
+            fill: #334155;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo-group">
-            <img src="EDUcore Bridge_logo.png" alt="EDUcore Bridge logo">
-            <div class="header-title">Gates Foundation Investment Partnerships</div>
-        </div>  
-    </header>
-
     <div id="instructions">
         <b>Navigation</b>
-        Roll over a node to learn about the investment or the <span style="color:#dc2626; font-weight:bold;">connector</span> to see the EDUcore linkage.
+        Roll over a node to learn about the Gates investment or the <span class="highlight-red">connector</span> to learn about the connection to EDUcore.
+        <br><br>
+        <b>Interactivity</b>
+        Click any node (like 1EdTech) to isolate and make it the focus of the network view. Click EDUcore to return.
+        <br><br>
+        <b>Note:</b>Data are incomplete for child nodes. It is not in our current scope to build the entire universe of connections accross all investments.
     </div>
 
-    <!--div id="credit-footer">Vibe coded with Gemini by Jim Goodell - CC-BY 4.0</div-->
+    <div id="credit-footer">
+        Vibe coded with Gemini by Jim Goodell - CC-BY 4.0
+    </div>
+
     <div id="graph-container"></div>
     <div id="tooltip" class="tooltip"></div>
 
@@ -97,7 +154,6 @@
                 { 
                     id: "EDUcore", 
                     group: 1, 
-                    radius: 50, 
                     desc: "The central hub for educational data standards and AI-enabled infrastructure designed to address targeted universalism and make all learning count.", 
                     linkage: "Core infrastructure hub." 
                 },
@@ -133,147 +189,280 @@
                 },
                 { 
                     id: "AACRAO Infuse", 
-                    group: 2, 
+                    group: 3, 
                     desc: "Project Infuse is a collaborative initiative that seeks to democratize access to digital credentials in higher education. Designed to address equity gaps and institutional barriers, Infuse is advancing a secure, open, and interoperable infrastructure for Learning and Employment Records (LERs) that serves the public good.", 
                     linkage: "Members of the EduCore team are participants in the Infuse initiative. We will be putting into AI infrastructure all the necessary LER and Transcript nodes and edges that the INFUSE project would need as it starts to get closer to implementation." 
                 },
                 { 
                     id: "Credential Engine", 
-                    group: 2, 
+                    group: 3, 
                     desc: "Credential Engine is a non-profit on a mission to map the credentials, qualifications, and skills landscape with clear information, fueling the creation of resources that empower people to discover and pursue the learning and career pathways that are best for them. The Credential Registry is a cloud-based data store for linked open data resources published using CTDL JSON-LD.", 
                     linkage: "CTDL is a key de facto standard connected to EduCore and included in our proof-of-concept library and toolset." 
                 },
                 { 
+                    id: "Learning Commons", 
+                    group: 5, 
+                    desc: "Building on the Chan Zuckerberg Initiative’s long-standing work and investment in education, the Learning Commons Initiative is building open, public-purpose infrastructure — datasets, rubrics, and resources — that help raise the standard for educational tools and create more consistent, impactful learning experiences for all students and teachers.", 
+                    linkage: "Learning Commons is already leveraging some EduCore connected standards such as in its K12 Knowledge Graph using 1EdTech’s CASE standard. EduCore will be able to connect the dots to help these public goods be compatible across other standards as well such as the IEEE Sharable Competency Definition standard [IEEE 1484.20.3] and Credential Engine’s CTDL-ASN. Additionally we can collaborate to standardize elements for AI context with the CZI team, such as standard formats for pedagogy, motivational, and learning science principles to optimize individualized and social learning." 
+                },
+                { 
+                    id: "Learning Economy Foundation", 
+                    group: 5, 
+                    desc: "Research and Learning Opportunities related to Lifelong Learning Passport (LLP), a secure, digital, and portable record designed to help individuals own and share their education, skills, and work credentials globally.", 
+                    linkage: "LEF already uses the standards connected in the EduCore library. Issuing of LERs is a key use case. The LEF team will benefit from the EduCore library as their use cases expand to include more AI-enabled learning support applications, such as the use of passport data as context for AI, and in turn those innovative use cases can inform EduCore and the standards use cases and data definitions." 
+                },
+                { 
+                    id: "Digital Promise", 
+                    group: 5, 
+                    desc: "To improve AI-driven educational tools by developing research-backed AI models tailored to K-12 learning and math instructional materials. Includes programs like the AIMS Collaboratory and Gates AIMS Research Hub.", 
+                    linkage: "EduCore team members build bridges from Digital Promise research to scalable implementations by leveraging standards for interoperability and persistent learner memory." 
+                },
+                { 
+                    id: "CMU", 
+                    group: 5, 
+                    desc: "Projects include developing learning design insights for courseware solutions and exploring how math tutoring can contribute to learning for low income backgrounds.", 
+                    linkage: "Close ties with the learning engineering community at CMU. The EduCore vision is a bridge from research-based courseware to scalable modular open systems architectures." 
+                },
+                { 
+                    id: "US Chamber of Commerce Foundation", 
+                    group: 3, 
+                    desc: "Programs such as JEDx and the T3 Innovation Network supporting economic mobility and empowering learners and workers with their own data.", 
+                    linkage: "EduCore works closely with JEDx, LEDx, and T3's work to be a catalyst in the standards communities and support the New Data Paradigm." 
+                },
+                { 
+                    id: "JFF", 
+                    group: 4, 
+                    desc: "JFF empowers people with data and guidance to find, finance, and flourish in personalized, lifelong career pathways with a vision for 75 million Americans to have quality jobs by 2033.", 
+                    linkage: "AI-empowered learning and recognition of skills through digital credentials will not scale without partners such as JFF that can help bring about process and practice changes." 
+                },
+                { 
+                    id: "Learnvia", 
+                    group: 5, 
+                    desc: "Learnvia is a 2025 non-profit initiative launched by Carnegie Mellon University and the Gates Foundation to improve student success in high-enrollment college gateway math courses.", 
+                    linkage: "Collaboration to ensure maximum reuse of Leanvia public goods across platforms and preserve memory across learner experiences." 
+                },
+                { 
+                    id: "National Skills Coalition", 
+                    group: 4, 
+                    desc: "National Skills Coalition supports the collection and use of data to inform the connection between postsecondary education and the workforce, including priorities like Workforce Pell.", 
+                    linkage: "Outreach and messaging for the NSC vision for data as core infrastructure to leverage the EduCore library and the interoperability ecosystem." 
+                },
+                { 
+                    id: "Rice University", 
+                    group: 5, 
+                    desc: "To enable more affordable access to ever improving assessment items in a repository managed by OpenStax and a network of core partners.", 
+                    linkage: "In progress work to coordinate digital format of assessment items for interoperability using EduCore linked standards." 
+                },
+                { 
                     id: "1EdTech - CASE Global Network", 
-                    group: 2, 
-                    desc: "1EdTech's CASE (Competency and Academic Standards Exchange) enables the digital exchange of learning standards and competencies. The proposed CASE Global Network aims to be a federated system of servers that serve competency and skill data for use in LER’s  and the overall learning ecosystem. EDUcore’s Reference Library could maintain a reference of these servers under Implementation information and we have already integrated CASE, CLR, and Open Badges v3.", 
+                    group: 6, 
+                    desc: "1EdTech’s CASE (Competency and Academic Standards Exchange) enables the digital exchange of learning standards and competencies. The proposed CASE Global Network aims to be a federated system of servers that serve competency and skill data for use in LER’s and the overall learning ecosystem. EDUcore’s Reference Library could maintain a reference of these servers under Implementation information and we have already integrated CASE, CLR, and Open Badges v3.", 
                     linkage: "We have brought the Product Manager of 1EdTech as a consultant to validate our mapping of CASE, CLR, and OBv3, and to help guide our integration with 1EdTech’s planned CASE/LER Network. Beyond maintaining the server reference list, EDUcore can host the LIF <-> CASE <-> CLR crosswalks (already in the knowledge graph) so any node in the network can translate operational records into network-shareable CASE references and CLR assertions on the fly. CASE defines the competencies, CLR asserts them about a learner, LIF is where that data actually lives and moves inside the systems on either side of the network. EduCore also connects the dots across competency standards such as Sharable Competency Definitions (IEEE 1484.20.3) and CTDL-ASN for cross-platform compatibility." 
                 },
                 { 
+                    id: "Aspen Institute — UpSkill America", 
+                    group: 4, 
+                    desc: "Promotes training and career advancement practices, including modern approaches to LER and linked data for skills.",
+                    linkage: "Active operational mapping models targeted toward modern institutional data alignment paradigms."
+                },
+                { 
                     id: "Safe & Effective AI (Proposed)", 
-                    group: 2, 
+                    group: 5, 
                     desc: "Proposed project focusing on establishing safe and effective AI implementation frameworks in educational contexts.", 
                     linkage: "Collaboration would provide standardized data definitions to ensure AI context is governed and interoperable." 
                 },
                 { 
                     id: "DataKind", 
-                    group: 2, 
+                    group: 5, 
                     desc: "DataKind’s Postsecondary Model work focuses on leveraging data science for social good in the higher education sector.", 
-                    linkage: "We have spoken to DataKind’s lead researcher and Alex has reached out to John Hereford , their CEO. We believe that this project will be able to leverage the deep Postsecondary models available in PESC, CTDL, and  CEDS. EduCore provides the semantic alignment needed to compare data across different states and contexts for DataKind's postsecondary modeling." 
+                    linkage: "We have spoken to DataKind’s lead researcher and Alex has reached out to John Hereford , their CEO. We believe that this project will be able to leverage the deep Postsecondary models available in PESC, CTDL, and CEDS. EduCore provides the semantic alignment needed to compare data across different states and contexts for DataKind's postsecondary modeling." 
                 },
                 { 
                     id: "QIP Postsecondary Outcomes Data Community of Practice", 
                     group: 2, 
                     desc: "The K12 Community of Practice: Using Postsecondary Data (K12 CoP) is a freely-accessible, community-driven collective of state-level K12 postsecondary data users who collaborate to improve pathways for students.", 
                     linkage: "An EduCore team member is an advisor to this project. EduCore helps inform this community on what is possible with better comparable data and digital transformation technologies." 
-                },
-                { 
-                    id: "Learning Commons", 
-                    group: 2, 
-                    desc: "Building on the Chan Zuckerberg Initiative’s long-standing work and investment in education, the Learning Commons Initiative is building open, public-purpose infrastructure — datasets, rubrics, and resources — that help raise the standard for educational tools and create more consistent, impactful learning experiences for all students and teachers.", 
-                    linkage: "Learning Commons is already leveraging some EduCore connected standards such as in its K12 Knowledge Graph using 1EdTech’s CASE standard. EduCore will be able to connect the dots to help these public goods be compatible across other standards as well such as the IEEE Sharable Competency Definition standard [IEEE 1484.20.3] and Credential Engine’s CTDL-ASN. Additionally we can collaborate to standardize elements for AI context with the CZI team, such as standard formats for pedagogy, motivational, and learning science principles to optimize individualized and social learning." 
-                },
-                { 
-                    id: "Learning Economy", 
-                    group: 2, 
-                    desc: "Research and Learning Opportunities related to Lifelong Learning Passport (LLP), a secure, digital, and portable record designed to help individuals own and share their education, skills, and work credentials globally.", 
-                    linkage: "LEF already uses the standards connected in the EduCore library. Issuing of LERs is a key use case. The LEF team will benefit from the EduCore library as their use cases expand to include more AI-enabled learning support applications, such as the use of passport data as context for AI, and in turn those innovative use cases can inform EduCore and the standards use cases and data definitions." 
-                },
-                { 
-                    id: "Digital Promise", 
-                    group: 2, 
-                    desc: "To improve AI-driven educational tools by developing research-backed AI models tailored to K-12 learning and math instructional materials. Includes programs like the AIMS Collaboratory and Gates AIMS Research Hub.", 
-                    linkage: "EduCore team members build bridges from Digital Promise research to scalable implementations by leveraging standards for interoperability and persistent learner memory." 
-                },
-                { 
-                    id: "CMU", 
-                    group: 2, 
-                    desc: "Projects include developing learning design insights for courseware solutions and exploring how math tutoring can contribute to learning for low income backgrounds.", 
-                    linkage: "Close ties with the learning engineering community at CMU. The EduCore vision is a bridge from research-based courseware to scalable modular open systems architectures." 
-                },
-                { 
-                    id: "US Chamber of Commerce Foundation", 
-                    group: 2, 
-                    desc: "Programs such as JEDx and the T3 Innovation Network supporting economic mobility and empowering learners and workers with their own data.", 
-                    linkage: "EduCore works closely with JEDx, LEDx, and T3's work to be a catalyst in the standards communities and support the New Data Paradigm." 
-                },
-                { 
-                    id: "JFF", 
-                    group: 2, 
-                    desc: "JFF empowers people with data and guidance to find, finance, and flourish in personalized, lifelong career pathways with a vision for 75 million Americans to have quality jobs by 2033.", 
-                    linkage: "AI-empowered learning and recognition of skills through digital credentials will not scale without partners such as JFF that can help bring about process and practice changes." 
-                },
-                { 
-                    id: "Learnvia", 
-                    group: 2, 
-                    desc: "Learnvia is a 2025 non-profit initiative launched by Carnegie Mellon University and the Gates Foundation to improve student success in high-enrollment college gateway math courses.", 
-                    linkage: "Collaboration to ensure maximum reuse of Leanvia public goods across platforms and preserve memory across learner experiences." 
-                },
-                { 
-                    id: "National Skills Coalition", 
-                    group: 2, 
-                    desc: "National Skills Coalition supports the collection and use of data to inform the connection between postsecondary education and the workforce, including priorities like Workforce Pell.", 
-                    linkage: "Outreach and messaging for the NSC vision for data as core infrastructure to leverage the EduCore library and the interoperability ecosystem." 
-                },
-                { 
-                    id: "Rice University", 
-                    group: 2, 
-                    desc: "To enable more affordable access to ever improving assessment items in a repository managed by OpenStax and a network of core partners.", 
-                    linkage: "In progress work to coordinate digital format of assessment items for interoperability using EduCore linked standards." 
                 }
             ],
-            links: []
+            links: [
+                { source: "1EdTech - CASE Global Network", target: "CEDS", linkage: "The CASE standard was derived from CEDS terms and will stay in sync via EDUcore." },
+                { source: "1EdTech - CASE Global Network", target: "EDUcore", linkage: "EDUcore maps CASE data to other skills and competency data formats and support universal data translation across skills ontologies." },
+                { source: "1EdTech - CASE Global Network", target: "LIF", linkage: "LIF metrics may use K-12 standards definitions for some of its metrics. LIF definitions draw from 1EdTech standards." },
+                { source: "1EdTech - CASE Global Network", target: "Credential Engine", linkage: "Credential Engine's CTDL-ASN maps to CASE. The Credential Registry has a postsecondary-centric audience whereas CASE has a K-12-centric audience. EDUcore helps make competency definition data work across these communities." },
+                { source: "1EdTech - CASE Global Network", target: "Learning Commons", linkage: "Learning Common's Knowledge Graph uses K-12 Standards definition data from the CASE Network." },
+                { source: "1EdTech - CASE Global Network", target: "Learning Economy Foundation", linkage: "Learning Economy Foundation's LearnCard uses multiple 1EdTech standards and the LERs within LearnCard reference competency definitions which may be authoritatively published within the CASE Network federation." },
+                { source: "1EdTech - CASE Global Network", target: "US Chamber of Commerce Foundation", linkage: "T3 Innovation Network works closely with 1EdTech on LER-related projects. JEDx includes skills definition data for Jobs that may reference definitions in the CASE Network. The Talent Pipeline Management work by USCCF promotes connections between employers and education/training providers for skills-based hiring and advancement." },
+                { source: "1EdTech - CASE Global Network", target: "National Skills Coalition", linkage: "NSC is a voice for high-quality, inclusive skills training, including skills that may be defined in CASE format." },
+                { source: "1EdTech - CASE Global Network", target: "Aspen Institute — UpSkill America", linkage: "UpSkill America promotes training and career advancement practices, including modern approaches to LER and linked data for skills." },
+                { source: "Aspen Institute — UpSkill America", target: "JFF", linkage: "Cross-organizational workflow mappings connecting data-informed learning to job placement systems." },
+                { source: "Aspen Institute — UpSkill America", target: "US Chamber of Commerce Foundation", linkage: "Alignment models exploring direct integration patterns for LER formats and skill records." }
+            ]
         };
 
-        // Create links (ensure Case-Sensitivity matches "EDUcore")
+        // Construct standard core baseline linkages dynamically
         data.nodes.forEach(node => {
             if (node.id !== "EDUcore") {
-                data.links.push({ source: "EDUcore", target: node.id, linkage: node.linkage });
+                data.links.push({
+                    source: "EDUcore",
+                    target: node.id,
+                    linkage: node.linkage || "Active alignment on data standards."
+                });
             }
         });
 
-        const width = window.innerWidth, height = window.innerHeight;
-        const svg = d3.select("#graph-container").append("svg")
-            .attr("width", width).attr("height", height)
+        let currentFocusId = "EDUcore";
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const svg = d3.select("#graph-container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
             .call(d3.zoom().on("zoom", (event) => container.attr("transform", event.transform)));
-        
+
         const container = svg.append("g");
         const tooltip = d3.select("#tooltip");
 
-        const simulation = d3.forceSimulation(data.nodes)
-            .force("link", d3.forceLink(data.links).id(d => d.id).distance(280))
+        const linkGroup = container.append("g").attr("class", "links-layer");
+        const nodeGroup = container.append("g").attr("class", "nodes-layer");
+
+        let link = d3.selectAll();
+        let node = d3.selectAll();
+
+        const simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id).distance(260))
             .force("charge", d3.forceManyBody().strength(-1200))
-            .force("center", d3.forceCenter(width / 2, height / 2 + 35))
-            .force("collision", d3.forceCollide().radius(d => (d.radius || 35) + 30));
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius(d => (d.radius || 30) + 25));
 
-        const link = container.append("g").selectAll("line").data(data.links).join("line").attr("class", "link")
-            .on("mouseover", (event, d) => {
-                tooltip.style("opacity", 1).html(`<strong>Link to ${d.target.id}</strong><span class="label">EDUcore Linkage</span>${d.linkage}`);
-            })
-            .on("mousemove", (event) => tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 15) + "px"))
-            .on("mouseout", () => tooltip.style("opacity", 0));
+        // Reactive Rendering Architecture Function
+        function renderGraph(focusId) {
+            let filteredNodes = [];
+            let filteredLinks = [];
 
-        const node = container.append("g").selectAll(".node").data(data.nodes).join("g").attr("class", "node").call(drag(simulation));
+            if (focusId === null) {
+                // Main State: Show all nodes and connections globally
+                filteredNodes = data.nodes;
+                filteredLinks = data.links;
+            } else {
+                // Focus State: Filter down strictly to connections linked directly to the selected focusId node
+                filteredLinks = data.links.filter(l => {
+                    const sourceId = typeof l.source === "object" ? l.source.id : l.source;
+                    const targetId = typeof l.target === "object" ? l.target.id : l.target;
+                    return sourceId === focusId || targetId === focusId;
+                });
 
-        node.append("circle").attr("r", d => d.radius || 35).attr("fill", d => d.id === "EDUcore" ? "#00a88e" : "#3b82f6")
-            .on("mouseover", (event, d) => {
-                tooltip.style("opacity", 1).html(`<strong>${d.id}</strong><span class="label">Details</span>${d.desc}`);
-            })
-            .on("mousemove", (event) => tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 15) + "px"))
-            .on("mouseout", () => tooltip.style("opacity", 0));
+                const activeNodeIds = new Set([focusId]);
+                filteredLinks.forEach(l => {
+                    activeNodeIds.add(typeof l.source === "object" ? l.source.id : l.source);
+                    activeNodeIds.add(typeof l.target === "object" ? l.target.id : l.target);
+                });
 
-        node.append("text").attr("dy", d => (d.radius || 35) + 20).attr("text-anchor", "middle").text(d => d.id);
+                filteredNodes = data.nodes.filter(n => activeNodeIds.has(n.id));
+            }
+
+            // D3 JOIN LINKS DATASET
+            link = linkGroup.selectAll("line")
+                .data(filteredLinks, d => {
+                    const s = typeof d.source === "object" ? d.source.id : d.source;
+                    const t = typeof d.target === "object" ? d.target.id : d.target;
+                    return `${s}-${t}`;
+                })
+                .join("line")
+                .attr("class", "link")
+                .on("mouseover", function(event, d) {
+                    const sourceName = typeof d.source === "object" ? d.source.id : d.source;
+                    const targetName = typeof d.target === "object" ? d.target.id : d.target;
+                    tooltip.style("opacity", 1)
+                           .html(`<strong>Connection: ${sourceName} ➔ ${targetName}</strong><span class="label">Linkage Details</span>${d.linkage}`);
+                })
+                .on("mousemove", (event) => {
+                    tooltip.style("left", (event.pageX + 15) + "px")
+                           .style("top", (event.pageY - 15) + "px");
+                })
+                .on("mouseout", () => tooltip.style("opacity", 0));
+
+            // D3 JOIN NODES DATASET
+            node = nodeGroup.selectAll(".node")
+                .data(filteredNodes, d => d.id)
+                .join(
+                    enter => {
+                        const g = enter.append("g")
+                            .attr("class", "node")
+                            .call(drag(simulation));
+
+                        g.append("circle")
+                            .attr("r", d => d.radius || 30)
+                            .attr("fill", d => d.id === "EDUcore" ? "#10b981" : d3.schemeTableau10[d.group % 10]);
+
+                        g.append("text")
+                            .attr("dy", d => (d.radius || 30) + 18)
+                            .attr("text-anchor", "middle")
+                            .text(d => d.id);
+
+                        return g;
+                    },
+                    update => update,
+                    exit => exit.remove()
+                );
+
+            // Re-bind mouse and click event structures to circles
+            node.selectAll("circle")
+                .on("mouseover", function(event, d) {
+                    tooltip.style("opacity", 1)
+                           .html(`<strong>${d.id}</strong><span class="label">Investment & Details</span>${d.desc}`);
+                })
+                .on("mousemove", (event) => {
+                    tooltip.style("left", (event.pageX + 15) + "px")
+                           .style("top", (event.pageY - 15) + "px");
+                })
+                .on("mouseout", () => tooltip.style("opacity", 0))
+                .on("click", function(event, d) {
+                    event.stopPropagation();
+                    // Toggle state: if clicked again, return to main view; otherwise focus node
+                    currentFocusId = (currentFocusId === d.id) ? "EDUcore" : d.id;
+                    renderGraph(currentFocusId);
+                });
+
+            // Update parameters inside layout engine
+            simulation.nodes(filteredNodes);
+            simulation.force("link").links(filteredLinks);
+            simulation.alpha(0.8).restart();
+        }
 
         simulation.on("tick", () => {
-            link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+            link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
             node.attr("transform", d => `translate(${d.x},${d.y})`);
         });
 
-        function drag(sim) {
-            return d3.drag().on("start", (e) => { if (!e.active) sim.alphaTarget(0.3).restart(); e.subject.fx = e.subject.x; e.subject.fy = e.subject.y; })
-                .on("drag", (e) => { e.subject.fx = e.x; e.subject.fy = e.y; })
-                .on("end", (e) => { if (!e.active) sim.alphaTarget(0); e.subject.fx = null; e.subject.fy = null; });
+        function drag(simulation) {
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+            return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
         }
+
+        window.addEventListener('resize', () => {
+            svg.attr("width", window.innerWidth).attr("height", window.innerHeight);
+            simulation.force("center", d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2));
+            simulation.alpha(0.3).restart();
+        });
+
+        // Initialize state engine
+        renderGraph(currentFocusId);
     </script>
 </body>
 </html>
